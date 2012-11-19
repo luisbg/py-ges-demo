@@ -116,6 +116,14 @@ class GesDemo():
     def _delete_activate_cb(self, widget):
         print "delete"
 
+    def _start_changed(self, widget):
+        new_start = widget.get_text()
+        print "new start entered", new_start
+
+        model, row_iter = self.timeline_treeview.get_selection().get_selected()
+        idf = self.timeline_store.get_value(row_iter, 0)
+        self.clips[idf][1] = new_start
+
     def _duration_scale_change_value_cb(self, widget, event):
         new_duration = widget.get_value()
         print "duration scale change", new_duration
@@ -126,7 +134,7 @@ class GesDemo():
 
     def _in_point_scale_change_value_cb(self, widget, event):
         new_in_point = widget.get_value()
-        print "in point scale change value", new_on_point
+        print "in point scale change value", new_in_point
 
         model, row_iter = self.timeline_treeview.get_selection().get_selected()
         idf = self.timeline_store.get_value(row_iter, 0)
