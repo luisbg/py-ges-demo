@@ -123,6 +123,10 @@ class GesDemo():
         model, row_iter = self.timeline_treeview.get_selection().get_selected()
         idf = self.timeline_store.get_value(row_iter, 0)
         self.clips[idf][1] = new_start
+        try:
+            self.timeline_store.set_value(row_iter, 2, long(new_start))
+        except:
+            self.timeline_store.set_value(row_iter, 2, 0)
 
     def _duration_scale_change_value_cb(self, widget, event):
         new_duration = widget.get_value()
@@ -131,6 +135,7 @@ class GesDemo():
         model, row_iter = self.timeline_treeview.get_selection().get_selected()
         idf = self.timeline_store.get_value(row_iter, 0)
         self.clips[idf][2] = new_duration
+        self.timeline_store.set_value(row_iter, 3, long(new_duration))
 
     def _in_point_scale_change_value_cb(self, widget, event):
         new_in_point = widget.get_value()
@@ -139,6 +144,7 @@ class GesDemo():
         model, row_iter = self.timeline_treeview.get_selection().get_selected()
         idf = self.timeline_store.get_value(row_iter, 0)
         self.clips[idf][3] = new_in_point
+        self.timeline_store.set_value(row_iter, 4, long(new_in_point))
 
     def _window_delete_event_cb(self, unused_window=None, unused_even=None):
         Gtk.main_quit
