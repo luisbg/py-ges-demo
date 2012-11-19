@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 # PiTiVi , Non-linear video editor
 #
-#       ui.py
+#       py-ges-demo.py
 #
 # Copyright (c) 2012 Luis de Bethencourt <luis.debethencourt@collabora.com>
 #
@@ -31,9 +31,13 @@ from gi.repository import Gst
 from gi.repository import GES
 from gi.repository import GObject
 
+from engine import Engine
+
 class GesDemo():
 
     def __init__(self):
+        self.engine = Engine()
+
         self.clips = {}
 
         self.builder = Gtk.Builder()
@@ -60,6 +64,7 @@ class GesDemo():
             v[a] = str(random.randint(0,1000))
         self.timeline_store.append([uri, "0", v[0], v[1]])
         self.clips[uri] = ("0", v[0], v[1])
+        self.engine.add_file(uri)
 
     def _clip_selected(self, widget):
         model, row_iter = self.timeline_treeview.get_selection().get_selected()
@@ -80,10 +85,10 @@ class GesDemo():
         self.in_point_scale.set_value(int(clip[2]))
 
     def _stop_activate_cb(self, widget):
-        print "stop"
+        self.engine.stop()
 
     def _play_activate_cb(self, widget):
-        print "play"
+        self.engine.play()
 
     def _move_up_activate_cb(self, widget):
         print "move up"
