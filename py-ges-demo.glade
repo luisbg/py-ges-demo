@@ -19,40 +19,6 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-floppy</property>
   </object>
-  <object class="GtkListStore" id="liststore1">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Left</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Center</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Right</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="liststore2">
-    <columns>
-      <!-- column-name gchararray2 -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Baseline</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Bottom</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Top</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkTreeSelection" id="selection"/>
   <object class="GtkWindow" id="window">
     <property name="visible">True</property>
@@ -76,6 +42,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">toolbutton1</property>
                 <property name="use_underline">True</property>
+                <property name="stock_id">gtk-media-play</property>
                 <signal name="clicked" handler="_play_activate_cb" swapped="no"/>
               </object>
               <packing>
@@ -90,6 +57,7 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">toolbutton6</property>
                 <property name="use_underline">True</property>
+                <property name="stock_id">gtk-media-stop</property>
                 <signal name="clicked" handler="_stop_activate_cb" swapped="no"/>
               </object>
               <packing>

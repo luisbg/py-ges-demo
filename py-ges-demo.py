@@ -31,13 +31,14 @@ from gi.repository import Gst
 from gi.repository import GES
 from gi.repository import GObject
 
-class Demo():
+class GesDemo():
 
     def __init__(self):
         self.clips = {}
 
         self.builder = Gtk.Builder()
-        self.builder.add_from_file(os.path.join(os.path.curdir, "ui.glade"))
+        self.builder.add_from_file(os.path.join(os.path.curdir, \
+            "py-ges-demo.glade"))
         self.builder.connect_signals(self)
 
         self.timeline_treeview = self.builder.get_object("timeline_treeview")
@@ -117,5 +118,5 @@ class Demo():
         Gtk.main_quit
         exit(0)
 
-demo = Demo()
+demo = GesDemo()
 Gtk.main()
