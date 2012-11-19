@@ -63,7 +63,7 @@ class GesDemo():
         for a in range(0, 2):
             v[a] = random.randint(0,1000)
 
-        self.timeline_store.append([uri, 0, v[0], v[1]])
+        self.timeline_store.append([os.path.basename(filepath), 0, v[0], v[1]])
         self.clips[uri] = (0, v[0], v[1])
 
         self.engine.add_file(uri)
