@@ -26,7 +26,7 @@ import os
 
 from gi.repository import Gtk
 from gi.repository import Gdk
-from gi.repository import Gst
+from gi.repository import Gst, GstPbutils
 from gi.repository import GES
 from gi.repository import GObject
 
@@ -51,10 +51,17 @@ class Engine():
         self.layer = GES.SimpleTimelineLayer()
         self.timeline.add_layer(self.layer)
 
-    def add_file(self, uri):
-        src = GES.TimelineFileSource(uri=uri)
+        Gst.init(None)
+
+
+    def add_file(self, file_uri):
+        src = GES.TimelineFileSource(uri=file_uri)
         src.set_property("priority", 1)
         self.layer.add_object(src, 0)
+
+        disc = GstPbutils.Discoverer.new (50000000000)
+        info = disc.discover_uri (file_uri)
+        return info.get_duration()
 
     def play(self):
         self.pipeline.set_state(Gst.State.PLAYING)

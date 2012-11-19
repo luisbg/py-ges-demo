@@ -47,7 +47,7 @@ class GesDemo():
 
         self.timeline_treeview = self.builder.get_object("timeline_treeview")
                                             #id, uri, start, duration, in point
-        self.timeline_store = Gtk.ListStore(int, str, int, int, int)
+        self.timeline_store = Gtk.ListStore(int, str, long, long, long)
         self.timeline_treeview.set_model(self.timeline_store)
         self.timeline_current_iter = None        #To keep track of the cursor
 
@@ -62,14 +62,12 @@ class GesDemo():
         idf = len(self.clips)
 
         uri = Gst.filename_to_uri (filepath)
-        v = {}
-        for a in range(0, 2):
-            v[a] = random.randint(0,1000)
+        duration = self.engine.add_file(uri)
 
-        self.timeline_store.append([idf, os.path.basename(filepath), 0, v[0], v[1]])
-        self.clips[idf] = (uri, 0, v[0], v[1])
-
-        self.engine.add_file(uri)
+        self.timeline_store.append([idf, os.path.basename(filepath), 0,
+                                   duration, 0])
+        # clips[id] = uri, start, duration, in_point, max_duration
+        self.clips[idf] = [uri, 0, duration, 0, duration]
 
     def _clip_selected(self, widget):
         model, row_iter = self.timeline_treeview.get_selection().get_selected()
@@ -84,9 +82,9 @@ class GesDemo():
     def _update_properties_box(self, idf):
         clip = self.clips[idf]
         self.start_entry.set_text(str(clip[1]))
-        self.duration_scale.set_range(0, 1000)
+        self.duration_scale.set_range(0, clip[4] - clip[3])
         self.duration_scale.set_value(clip[2])
-        self.in_point_scale.set_range(0, 1000)
+        self.in_point_scale.set_range(0, clip[4])
         self.in_point_scale.set_value(clip[3])
 
     def _stop_activate_cb(self, widget):
@@ -118,11 +116,21 @@ class GesDemo():
     def _delete_activate_cb(self, widget):
         print "delete"
 
-    def _duration_scale_change_value_cb(self, widget, a, b):
-        print "duration scale change"
+    def _duration_scale_change_value_cb(self, widget, event):
+        new_duration = widget.get_value()
+        print "duration scale change", new_duration
 
-    def _in_point_scale_change_value_cb(self, widget, a, b):
-        print "in point scale change value"
+        model, row_iter = self.timeline_treeview.get_selection().get_selected()
+        idf = self.timeline_store.get_value(row_iter, 0)
+        self.clips[idf][2] = new_duration
+
+    def _in_point_scale_change_value_cb(self, widget, event):
+        new_in_point = widget.get_value()
+        print "in point scale change value", new_on_point
+
+        model, row_iter = self.timeline_treeview.get_selection().get_selected()
+        idf = self.timeline_store.get_value(row_iter, 0)
+        self.clips[idf][3] = new_in_point
 
     def _window_delete_event_cb(self, unused_window=None, unused_even=None):
         Gtk.main_quit
