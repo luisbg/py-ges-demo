@@ -188,7 +188,7 @@
                     <child>
                       <object class="GtkCellRendererText" id="duration_renderer"/>
                       <attributes>
-                        <attribute name="text">1</attribute>
+                        <attribute name="text">2</attribute>
                       </attributes>
                     </child>
                   </object>
@@ -199,7 +199,7 @@
                     <child>
                       <object class="GtkCellRendererText" id="in_point_render"/>
                       <attributes>
-                        <attribute name="text">1</attribute>
+                        <attribute name="text">3</attribute>
                       </attributes>
                     </child>
                   </object>
