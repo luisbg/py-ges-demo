@@ -38,10 +38,36 @@ class Demo():
         self.builder.connect_signals(self)
 
         self.window = self.builder.get_object("window")
-        self.window.connect("delete-event", self.quit)
+        #self.window.connect("delete-event", self.quit)
         self.window.show_all()
 
-    def quit(self, unused_window=None, unused_even=None):
+    def _stop_activate_cb(self, widget):
+        pass
+
+    def _play_activate_cb(self, widget):
+        pass
+
+    def _move_up_activate_cb(self, widget):
+        pass
+
+    def _move_down_activate_cb(self, widget):
+        pass
+
+    def _add_file_activated_cb(self, widget):
+        chooser = Gtk.FileChooserDialog()
+        if chooser.run() == gtk.RESPONSE_ACCEPT:
+            print chooser.get_filename()
+
+    def _delete_activate_cb(self, widget):
+        pass
+
+    def _duration_scale_change_value_cb(self, widget):
+        pass
+
+    def _in_point_scale_change_value_cb(self, widget):
+        pass
+
+    def _window_delete_event_cb(self, unused_window=None, unused_even=None):
         Gtk.main_quit
         exit(0)
 
