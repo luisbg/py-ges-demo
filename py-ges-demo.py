@@ -46,7 +46,7 @@ class GesDemo():
         self.builder.connect_signals(self)
 
         self.timeline_treeview = self.builder.get_object("timeline_treeview")
-        self.timeline_store = Gtk.ListStore(str, str, str, str)
+        self.timeline_store = Gtk.ListStore(str, int, int, int)
         self.timeline_treeview.set_model(self.timeline_store)
         self.timeline_current_iter = None        #To keep track of the cursor
 
@@ -61,9 +61,11 @@ class GesDemo():
         uri = Gst.filename_to_uri (filepath)
         v = {}
         for a in range(0, 2):
-            v[a] = str(random.randint(0,1000))
-        self.timeline_store.append([uri, "0", v[0], v[1]])
-        self.clips[uri] = ("0", v[0], v[1])
+            v[a] = random.randint(0,1000)
+
+        self.timeline_store.append([uri, 0, v[0], v[1]])
+        self.clips[uri] = (0, v[0], v[1])
+
         self.engine.add_file(uri)
 
     def _clip_selected(self, widget):
@@ -78,11 +80,11 @@ class GesDemo():
 
     def _update_properties_box(self, uri):
         clip = self.clips[uri]
-        self.start_entry.set_text(clip[0])
+        self.start_entry.set_text(str(clip[0]))
         self.duration_scale.set_range(0, 1000)
-        self.duration_scale.set_value(int(clip[1]))
+        self.duration_scale.set_value(clip[1])
         self.in_point_scale.set_range(0, 1000)
-        self.in_point_scale.set_value(int(clip[2]))
+        self.in_point_scale.set_value(clip[2])
 
     def _stop_activate_cb(self, widget):
         self.engine.stop()
