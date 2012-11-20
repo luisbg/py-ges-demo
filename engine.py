@@ -56,15 +56,31 @@ class Engine():
 
     def add_file(self, file_uri):
         src = GES.TimelineFileSource(uri=file_uri)
-        src.set_property("priority", 1)
+        src.set_priority(1)
         self.layer.add_object(src, 0)
 
         disc = GstPbutils.Discoverer.new (50000000000)
         info = disc.discover_uri (file_uri)
-        return info.get_duration()
+        return info.get_duration(), src
 
     def play(self):
         self.pipeline.set_state(Gst.State.PLAYING)
 
     def stop(self):
         self.pipeline.set_state(Gst.State.READY)
+
+    def change_object_duration(self, tlobj, duration):
+        #for obj in self.layer.get_objects():
+        #    if tlobj is obj.get_track_objects()[0]:
+        #        break
+
+        tlobj.set_duration(duration)
+
+    def change_object_start(self, tlobj, start):
+        tlobj.set_start(start)
+
+    def change_object_inpoint(self, tlobj, in_point):
+        tlobj.set_inpoint(in_point)
+
+    def change_object_priority(self, tlobj, priority):
+        tlobj.set_priority(priority)

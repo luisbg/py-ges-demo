@@ -62,12 +62,12 @@ class GesDemo():
         idf = len(self.clips)
 
         uri = Gst.filename_to_uri (filepath)
-        duration = self.engine.add_file(uri)
+        duration, tlobj = self.engine.add_file(uri)
 
         self.timeline_store.append([idf, os.path.basename(filepath), 0,
                                    duration, 0])
-        # clips[id] = uri, start, duration, in_point, max_duration
-        self.clips[idf] = [uri, 0, duration, 0, duration]
+        # clips[id] = uri, start, duration, in_point, max_duration, timelineobj
+        self.clips[idf] = [uri, 0, duration, 0, duration, tlobj]
 
     def _clip_selected(self, widget):
         model, row_iter = self.timeline_treeview.get_selection().get_selected()
@@ -127,6 +127,9 @@ class GesDemo():
             self.timeline_store.set_value(row_iter, 2, long(new_start))
         except:
             self.timeline_store.set_value(row_iter, 2, 0)
+            new_start = 0
+
+        self.engine.change_object_start(self.clips[idf][5], long(new_start))
 
     def _duration_scale_change_value_cb(self, widget, event):
         new_duration = widget.get_value()
@@ -136,6 +139,7 @@ class GesDemo():
         idf = self.timeline_store.get_value(row_iter, 0)
         self.clips[idf][2] = new_duration
         self.timeline_store.set_value(row_iter, 3, long(new_duration))
+        self.engine.change_object_duration(self.clips[idf][5], new_duration)
 
     def _in_point_scale_change_value_cb(self, widget, event):
         new_in_point = widget.get_value()
@@ -145,6 +149,7 @@ class GesDemo():
         idf = self.timeline_store.get_value(row_iter, 0)
         self.clips[idf][3] = new_in_point
         self.timeline_store.set_value(row_iter, 4, long(new_in_point))
+        self.engine.change_object_inpoint(self.clips[idf][5], new_in_point)
 
     def _window_delete_event_cb(self, unused_window=None, unused_even=None):
         Gtk.main_quit
