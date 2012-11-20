@@ -48,16 +48,16 @@ class Engine():
         self.timeline.add_track(self.audio)
         self.timeline.add_track(self.video)
 
-        self.layer = GES.SimpleTimelineLayer()
-        self.timeline.add_layer(self.layer)
-
         Gst.init(None)
 
 
     def add_file(self, file_uri):
         src = GES.TimelineFileSource(uri=file_uri)
         src.set_priority(1)
-        self.layer.add_object(src, 0)
+
+        layer = GES.TimelineLayer()
+        layer.add_object(src)
+        self.timeline.add_layer(layer)
 
         disc = GstPbutils.Discoverer.new (50000000000)
         info = disc.discover_uri (file_uri)
