@@ -70,10 +70,6 @@ class Engine():
         self.pipeline.set_state(Gst.State.READY)
 
     def change_object_duration(self, tlobj, duration):
-        #for obj in self.layer.get_objects():
-        #    if tlobj is obj.get_track_objects()[0]:
-        #        break
-
         tlobj.set_duration(duration)
 
     def change_object_start(self, tlobj, start):
@@ -84,3 +80,14 @@ class Engine():
 
     def change_object_priority(self, tlobj, priority):
         tlobj.set_priority(priority)
+
+    def prioritize(self, in_obj):
+        '''prioritize selected object by changing its priority to 1 and the rest
+           to 0'''
+        for layer in self.timeline.get_layers():
+            for obj in layer.get_objects():
+                #print "obj uri ", obj.get_properties("uri")
+                if obj is in_obj:
+                    self.change_object_priority(obj, 0)
+                else:
+                    self.change_object_priority(obj, 1)

@@ -72,12 +72,13 @@ class GesDemo():
     def _clip_selected(self, widget):
         model, row_iter = self.timeline_treeview.get_selection().get_selected()
         if row_iter is None:
-            return
+            self.engine.prioritize(None)
+        else:
+            idf = self.timeline_store.get_value(row_iter, 0)
+            self.engine.prioritize(self.clips[idf][5])
+            print "active clip: ", self.clips[idf]
 
-        idf = self.timeline_store.get_value(row_iter, 0)
-        print "active clip: ", self.clips[idf]
-
-        self._update_properties_box(idf)
+            self._update_properties_box(idf)
 
     def _update_properties_box(self, idf):
         clip = self.clips[idf]
