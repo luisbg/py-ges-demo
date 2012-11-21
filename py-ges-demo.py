@@ -93,12 +93,6 @@ class GesDemo():
     def _play_activate_cb(self, widget):
         self.engine.play()
 
-    def _move_up_activate_cb(self, widget):
-        print "move up"
-
-    def _move_down_activate_cb(self, widget):
-        print "move down"
-
     def _add_file_activated_cb(self, widget):
         filechooser = Gtk.FileChooserDialog(action=Gtk.FileChooserAction.OPEN,
                       buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
